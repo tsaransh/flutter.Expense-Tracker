@@ -9,10 +9,10 @@ final formatter = DateFormat.yMd();
 enum Category { food, travel, leisure, work }
 
 const categoryIcon = {
-  Category.food: Icon(Icons.dinner_dining),
-  Category.travel: Icon(Icons.flight_takeoff),
-  Category.leisure: Icon(Icons.movie),
-  Category.work: Icon(Icons.work)
+  Category.food: Icons.dinner_dining,
+  Category.travel: Icons.flight_takeoff,
+  Category.leisure: Icons.movie,
+  Category.work: Icons.work,
 };
 
 class Expense {
@@ -31,5 +31,25 @@ class Expense {
 
   get formattedDate {
     return formatter.format(date);
+  }
+}
+
+class ExpenseBucket {
+  const ExpenseBucket({required this.category, required this.expenseList});
+
+  ExpenseBucket.forCategory(List<Expense> allExpense, this.category)
+      : expenseList = allExpense
+            .where((expense) => expense.category == category)
+            .toList();
+
+  final List<Expense> expenseList;
+  final Category category;
+
+  double get totalExpense {
+    double sum = 0;
+    for (Expense exp in expenseList) {
+      sum += exp.amount;
+    }
+    return sum;
   }
 }
